@@ -1,6 +1,7 @@
 //
 // Created by Mr.X on 2022-05-10-0010.
 //
+#include <sstream>
 #include "iostream"
 #include "fstream"
 #include "cJSON.h"
@@ -32,7 +33,7 @@ cJSON *student2JSON(const Student &student) {
  */
 void saveStudents(Student students[], int num, const char *saveFile = "save.json") {
     // 打开并清空文件
-    ofstream file(saveFile, ofstream::trunc);
+    ofstream file(saveFile, ios::trunc);
     cJSON *json = cJSON_CreateObject();
     cJSON *array = cJSON_AddArrayToObject(json, "students");
     for (int i = 0; i < num; i++) {
@@ -40,12 +41,36 @@ void saveStudents(Student students[], int num, const char *saveFile = "save.json
     }
     file << cJSON_Print(json) << endl;
     file.close();
+    cJSON_free(array);
+    cJSON_free(json);
 }
 
 
+Student *readStudents(int &size, const char *saveFile = "save.json") {
+    ifstream file(saveFile, ios::in);
+    stringstream buffer;
+    buffer << file.rdbuf();
+    string contents(buffer.str());
+    cJSON *json = cJSON_Parse(contents.c_str());
+    cJSON *array = cJSON_GetObjectItem(json, "students");
+    size = cJSON_GetArraySize(array);
+    auto *students = new Student[size];
+    for (int i = 0; i < size; ++i) {
+        cJSON *student = cJSON_GetArrayItem(array, i);
+        students[i].setName(cJSON_GetArrayItem(student, 0)->valuestring);
+        students[i].setAddress(cJSON_GetArrayItem(student, 1)->valuestring);
+        students[i].setPhone(cJSON_GetArrayItem(student, 2)->valuestring);
+        students[i].setPostCode(cJSON_GetArrayItem(student, 3)->valuestring);
+        students[i].setEMail(cJSON_GetArrayItem(student, 4)->valuestring);
+    }
+    return students;
+}
+
 void test() {
-    Student s[2];
-    s[0].setName("asd");
-    s[1].setName("bbb");
-    saveStudents(s, 2);
+//    Student s[2];
+//    s[0].setName("asd");
+//    s[1].setName("bbb");
+//    saveStudents(s, 2);
+    int num = 0;
+    readStudents(num);
 }
