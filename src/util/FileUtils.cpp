@@ -28,7 +28,7 @@ cJSON *FileUtils::student2JSON(const Student &student) {
  * @param num 数组长度
  * @param saveFile 保存的文件名
  */
-void FileUtils::saveStudents(Student students[], int num, const char *saveFile = "save.json") {
+void FileUtils::saveStudents(Student students[], int num, const char *saveFile) {
     // 打开并清空文件
     ofstream file(saveFile, ios::trunc);
     // 创建 JSON 对象
@@ -55,7 +55,7 @@ void FileUtils::saveStudents(Student students[], int num, const char *saveFile =
  * @param saveFile 保存的文件名
  * @return 反序列化后的 Student 数组
  */
-Student *FileUtils::readStudents(int &size, const char *saveFile = "save.json") {
+Student *FileUtils::readStudents(int &size, const char *saveFile) {
     // 打开文件
     ifstream file(saveFile, ios::in);
     // 使用 stringStream 一次性将所有内容读入内存
@@ -80,13 +80,4 @@ Student *FileUtils::readStudents(int &size, const char *saveFile = "save.json") 
         students[i].setEMail(cJSON_GetArrayItem(student, 4)->valuestring);
     }
     return students;
-}
-
-void test() {
-//    Student s[2];
-//    s[0].setName("asd");
-//    s[1].setName("bbb");
-//    saveStudents(s, 2);
-    int num = 0;
-    FileUtils::readStudents(num);
 }

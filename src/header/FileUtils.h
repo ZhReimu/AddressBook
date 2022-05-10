@@ -29,7 +29,7 @@ public:
      * @param num 数组长度
      * @param saveFile 保存的文件名
      */
-    static void saveStudents(Student students[], int num, const char *saveFile);
+    static void saveStudents(Student students[], int num, const char *saveFile = "save.json");
 
 
     /**
@@ -38,7 +38,7 @@ public:
      * @param saveFile 保存的文件名
      * @return 反序列化后的 Student 数组
      */
-    static Student *readStudents(int &size, const char *saveFile);
+    static Student *readStudents(int &size, const char *saveFile = "save.json");
 
 };
 

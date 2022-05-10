@@ -3,7 +3,14 @@
 #include "FileUtils.h"
 
 int main(int argc, char *argv[]) {
-    test();
+
+//    Student s[2];
+//    s[0].setName("asd");
+//    s[1].setName("bbb");
+//    saveStudents(s, 2);
+    int num = 0;
+    FileUtils::readStudents(num);
+    cout << num << endl;
 }
 
 int showWindow(int argc, char *argv[]) {
