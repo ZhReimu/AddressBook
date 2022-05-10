@@ -54,6 +54,9 @@ public:
     void setName(const QString &n);
 
     void setAddress(const QString &a);
+
+    std::string toString();
+
 };
 
 

@@ -81,4 +81,13 @@ const char *Student::getCharEMail() const {
     return eMail.toStdString().c_str();
 }
 
+std::string Student::toString() {
+    return std::string("Student(Name = \"").append(name.toStdString())
+            .append("\", Address = \"").append(address.toStdString())
+            .append("\", Phone = \"").append(phone.toStdString())
+            .append("\", PostCode = \"").append(postCode.toStdString())
+            .append("\", E-Mail = \"").append(eMail.toStdString())
+            .append("\")");
+}
+
 Student::Student() = default;
