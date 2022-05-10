@@ -31,6 +31,16 @@ public:
 
     const QString &getEMail() const;
 
+    const char *getCharName() const;
+
+    const char *getCharAddress() const;
+
+    const char *getCharPhone() const;
+
+    const char *getCharPostCode() const;
+
+    const char *getCharEMail() const;
+
     void setName(const char *name);
 
     void setAddress(const char *address);

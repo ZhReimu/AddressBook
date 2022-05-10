@@ -61,4 +61,24 @@ void Student::setEMail(const char *e) {
     Student::eMail = e;
 }
 
+const char *Student::getCharName() const {
+    return name.toStdString().c_str();
+}
+
+const char *Student::getCharAddress() const {
+    return address.toStdString().c_str();
+}
+
+const char *Student::getCharPhone() const {
+    return phone.toStdString().c_str();
+}
+
+const char *Student::getCharPostCode() const {
+    return postCode.toStdString().c_str();
+}
+
+const char *Student::getCharEMail() const {
+    return eMail.toStdString().c_str();
+}
+
 Student::Student() = default;
