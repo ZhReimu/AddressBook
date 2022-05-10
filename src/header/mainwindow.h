@@ -44,6 +44,14 @@ private:
     static void onTableClicked(const QItemSelection &selected, const QItemSelection &deselected);
 
     static void onHeaderClicked(int index);
+
+    static void onSave();
+
+
+public Q_SLOTS:
+
+    void onAbout();
+
 };
 
 

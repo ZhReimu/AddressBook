@@ -9,6 +9,7 @@
 #include "FileUtils.h"
 #include <QStandardItemModel>
 #include <iostream>
+#include <QMessageBox>
 
 QStandardItemModel *MainWindow::model = new QStandardItemModel(); // NOLINT
 
@@ -53,6 +54,8 @@ void MainWindow::initComponents() {
 
     connect(selectionModel, &QItemSelectionModel::selectionChanged, MainWindow::onTableClicked);
     connect(tableHeader, &QHeaderView::sectionClicked, MainWindow::onHeaderClicked);
+    connect(ui->actionSave, &QAction::triggered, MainWindow::onSave);
+    connect(ui->actionAbout, SIGNAL(triggered(bool)), this, SLOT(onAbout()));
 }
 
 void MainWindow::initStudentData() {
@@ -81,4 +84,12 @@ void MainWindow::onHeaderClicked(int index) {
         sortOrder = sortOrder == Qt::AscendingOrder ? Qt::DescendingOrder : Qt::AscendingOrder;
     }
     model->sort(sortColumn, sortOrder);
+}
+
+void MainWindow::onSave() {
+    cout << "SaveFile" << endl;
+}
+
+void MainWindow::onAbout() {
+    QMessageBox::information(this, QString("关于"), QString("C++ 课程设计专用捏"));
 }
