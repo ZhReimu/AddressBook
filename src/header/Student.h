@@ -8,8 +8,10 @@
 
 #include <QString>
 #include <ostream>
+#include "cJSON.h"
 
 class Student {
+
 private:
     QString name;
     QString address;
@@ -17,6 +19,8 @@ private:
     QString postCode;
     QString eMail;
 public:
+    static Student EMPTY_STUDENT;
+
     Student();
 
     Student(const char *name, const char *address, const char *phone,
@@ -59,6 +63,9 @@ public:
     std::string toString();
 
     friend std::ostream &operator<<(std::ostream &os, Student student);
+
+    friend Student &operator<<(Student &s, const cJSON *json);
+
 };
 
 

@@ -72,12 +72,7 @@ Student *FileUtils::readStudents(int &size, const char *saveFile) {
     auto *students = new Student[size];
     // 遍历 JSON 节点, 并给 student 赋值
     for (int i = 0; i < size; ++i) {
-        cJSON *student = cJSON_GetArrayItem(array, i);
-        students[i].setName(cJSON_GetArrayItem(student, 0)->valuestring);
-        students[i].setAddress(cJSON_GetArrayItem(student, 1)->valuestring);
-        students[i].setPhone(cJSON_GetArrayItem(student, 2)->valuestring);
-        students[i].setPostCode(cJSON_GetArrayItem(student, 3)->valuestring);
-        students[i].setEMail(cJSON_GetArrayItem(student, 4)->valuestring);
+        students[i] << cJSON_GetArrayItem(array, i);
     }
     return students;
 }
