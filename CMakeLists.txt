@@ -24,13 +24,19 @@ add_executable(QTStuComm
         src/header/mainwindow.h
         src/ui/mainwindow.ui
         src/model/Student.cpp src/header/Student.h
-        src/util/cJSON.c src/header/cJSON.h
+        src/header/cJSON.h src/header/cJSON_Utils.h
         src/util/FileUtils.cpp src/header/FileUtils.h)
 
 target_link_libraries(QTStuComm
         Qt5::Core
         Qt5::Gui
         Qt5::Widgets
+        cjson
+        cjson_utils
+        )
+
+target_link_directories(QTStuComm PUBLIC
+        lib
         )
 
 if (WIN32)
