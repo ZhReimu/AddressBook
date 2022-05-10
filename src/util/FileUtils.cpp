@@ -1,21 +1,16 @@
 //
 // Created by Mr.X on 2022-05-10-0010.
 //
-#include <sstream>
-#include "iostream"
-#include "fstream"
-#include "cJSON.h"
-#include "Student.h"
+#include "FileUtils.h"
 
 using namespace std;
 
-
 /**
- * 将一个 Student 对象转换成 cJson 对象
- * @param student 要转换的 student
- * @return 转换后的 cJson
- */
-cJSON *student2JSON(const Student &student) {
+* 将一个 Student 对象转换成 cJson 对象
+* @param student 要转换的 student
+* @return 转换后的 cJson
+*/
+cJSON *FileUtils::student2JSON(const Student &student) {
     // 创建 JSON 对象
     cJSON *json = cJSON_CreateObject();
     // 将 Student 属性作为 key 存入 JSON
@@ -33,7 +28,7 @@ cJSON *student2JSON(const Student &student) {
  * @param num 数组长度
  * @param saveFile 保存的文件名
  */
-void saveStudents(Student students[], int num, const char *saveFile = "save.json") {
+void FileUtils::saveStudents(Student students[], int num, const char *saveFile = "save.json") {
     // 打开并清空文件
     ofstream file(saveFile, ios::trunc);
     // 创建 JSON 对象
@@ -60,7 +55,7 @@ void saveStudents(Student students[], int num, const char *saveFile = "save.json
  * @param saveFile 保存的文件名
  * @return 反序列化后的 Student 数组
  */
-Student *readStudents(int &size, const char *saveFile = "save.json") {
+Student *FileUtils::readStudents(int &size, const char *saveFile = "save.json") {
     // 打开文件
     ifstream file(saveFile, ios::in);
     // 使用 stringStream 一次性将所有内容读入内存
@@ -93,5 +88,5 @@ void test() {
 //    s[1].setName("bbb");
 //    saveStudents(s, 2);
     int num = 0;
-    readStudents(num);
+    FileUtils::readStudents(num);
 }
