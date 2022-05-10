@@ -6,6 +6,7 @@
 
 #include "mainwindow.h"
 #include "ui_MainWindow.h"
+#include "FileUtils.h"
 #include <QStandardItemModel>
 #include <iostream>
 
@@ -61,7 +62,7 @@ void MainWindow::initStudentData() {
         students[i].setName(QString(i % 26 + 65));
         students[i].setAddress(QString(i % 26 + 48));
         students[i].setPhone("123456");
-        students[i].setPostCode("999988");
+        students[i].setPostCode("奥里给");
         students[i].setEMail("123@qq.com");
     }
 }

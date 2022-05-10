@@ -90,4 +90,9 @@ std::string Student::toString() {
             .append("\")");
 }
 
+std::ostream &operator<<(std::ostream &os, Student student) {
+    os << student.toString();
+    return os;
+}
+
 Student::Student() = default;

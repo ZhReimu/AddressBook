@@ -7,6 +7,7 @@
 
 
 #include <QString>
+#include <ostream>
 
 class Student {
 private:
@@ -57,6 +58,7 @@ public:
 
     std::string toString();
 
+    friend std::ostream &operator<<(std::ostream &os, Student student);
 };
 
 
