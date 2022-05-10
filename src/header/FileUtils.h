@@ -1,0 +1,10 @@
+//
+// Created by Mr.X on 2022-05-10-0010.
+//
+
+#ifndef CLIONPROJECTS_FILEUTILS_H
+#define CLIONPROJECTS_FILEUTILS_H
+
+void test();
+
+#endif //CLIONPROJECTS_FILEUTILS_H
