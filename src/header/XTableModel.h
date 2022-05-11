@@ -7,13 +7,24 @@
 
 
 #include "QSqlTableModel"
+#include "QHeaderView"
+#include "QHeaderView"
+#include "ReadOnlyDelegate.h"
 
 class XTableModel : public QSqlTableModel {
+
+private:
+    QHeaderView *tableHeader;
 
 public:
     explicit XTableModel(QObject *parent = nullptr, const QSqlDatabase &db = QSqlDatabase());
 
+    XTableModel(QObject *parent, const QSqlDatabase &db, const QMap<QString, QString> &keyMap);
+
     QVariant data(const QModelIndex &idx, int role) const override;
+
+    QHeaderView *getTableHeader() const;
+
 };
 
 

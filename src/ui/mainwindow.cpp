@@ -11,6 +11,7 @@
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
 
+    model = new XTableModel(this, db, map);
     map.insert("编号", "sid");
     map.insert("姓名", "name");
     map.insert("地址", "address");
@@ -29,25 +30,11 @@ MainWindow::~MainWindow() {
 
 void MainWindow::initComponents() {
 
-    auto *tableHeader = new QHeaderView(Qt::Horizontal);
     auto *readOnlyDelegate = new ReadOnlyDelegate(this);
-
-    tableHeader->setModel(model);
-    tableHeader->setSectionsClickable(true);
-    tableHeader->setSectionResizeMode(QHeaderView::Stretch);
-
-    auto keys = map.keys();
-    auto size = map.size();
-    for (int i = 0; i < size; ++i) {
-        auto key = keys[i];
-        auto value = map.find(key).value();
-        model->setHeaderData(model->fieldIndex(value), Qt::Horizontal, key);
-    }
-    model->setEditStrategy(QSqlTableModel::OnManualSubmit);
     ui->tbStudent->setItemDelegateForColumn(0, readOnlyDelegate);
     ui->tbStudent->setModel(model);
     ui->tbStudent->verticalHeader()->hide();
-    ui->tbStudent->setHorizontalHeader(tableHeader);
+    ui->tbStudent->setHorizontalHeader(model->getTableHeader());
 
 }
 
@@ -75,7 +62,6 @@ void MainWindow::openDataBase(const QString &path) {
         return;
     }
     qDebug() << "打开数据库: " + path << endl;
-    model = new XTableModel(this, db);
     model->setTable("students");
     if (!model->select()) {
         QMessageBox::critical(this, tr("错误"), tr("查询数据失败!!"));
@@ -98,7 +84,7 @@ void MainWindow::onHeaderClicked(int index) {
 void MainWindow::onOpen() {
     auto *fileDialog = new QFileDialog(this);
     QStringList filter;
-    filter.append("数据库文件(*.db,*.sqlite)");
+    filter.append("数据库文件(*.db)");
     filter.append("所有文件(*.*)");
     fileDialog->setWindowTitle(tr("读取文件"));
     fileDialog->setNameFilters(filter);
