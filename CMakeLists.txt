@@ -26,7 +26,8 @@ add_executable(QTStuComm
         src/ui/mainwindow.ui
         src/model/Student.cpp src/header/Student.h
         src/header/cJSON.h src/header/cJSON_Utils.h
-        src/util/FileUtils.cpp src/header/FileUtils.h)
+        src/util/FileUtils.cpp src/header/FileUtils.h
+        src/util/ReadOnlyDelegate.cpp src/util/ReadOnlyDelegate.h)
 
 target_link_libraries(QTStuComm
         Qt5::Core

@@ -7,36 +7,51 @@
 #include "mainwindow.h"
 #include "ui_MainWindow.h"
 #include "FileUtils.h"
-#include <QStandardItemModel>
+#include "../util/ReadOnlyDelegate.h"
 #include <iostream>
 #include <QMessageBox>
 #include <QFileDialog>
+#include <QDataWidgetMapper>
+#include <QSqlRecord>
 
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
-    db->setDatabaseName(dbFile);
-    model = new QSqlTableModel(this, *db);
     initComponents();
 }
 
 MainWindow::~MainWindow() {
     delete ui;
-    delete[] students;
+    delete model;
 }
 
 void MainWindow::initComponents() {
-    QTableView *tb = ui->tbStudent;
+    openDataBase();
+
     auto *selectionModel = new QItemSelectionModel(model);
     auto *tableHeader = new QHeaderView(Qt::Horizontal);
+    auto *readOnlyDelegate = new ReadOnlyDelegate(this);
+
+
     tableHeader->setModel(model);
     tableHeader->setSectionsClickable(true);
     tableHeader->setSectionResizeMode(QHeaderView::Stretch);
-    model->setTable("students");
+
     model->setEditStrategy(QSqlTableModel::OnManualSubmit);
-    tb->setModel(model);
-    tb->setSelectionModel(selectionModel);
-    tb->setHorizontalHeader(tableHeader);
+    model->setHeaderData(model->fieldIndex("sid"), Qt::Horizontal, "编号");
+    model->setHeaderData(model->fieldIndex("name"), Qt::Horizontal, "姓名");
+    model->setHeaderData(model->fieldIndex("address"), Qt::Horizontal, "地址");
+    model->setHeaderData(model->fieldIndex("phone"), Qt::Horizontal, "电话");
+    model->setHeaderData(model->fieldIndex("postCode"), Qt::Horizontal, "邮编");
+    model->setHeaderData(model->fieldIndex("E-mail"), Qt::Horizontal, "邮件");
+
+
+    ui->tbStudent->setItemDelegateForColumn(0, readOnlyDelegate);
+    ui->tbStudent->setModel(model);
+    ui->tbStudent->verticalHeader()->hide();
+    ui->tbStudent->setSelectionModel(selectionModel);
+    ui->tbStudent->setHorizontalHeader(tableHeader);
+
     initSignal(selectionModel, tableHeader);
 }
 
@@ -47,10 +62,25 @@ void MainWindow::initSignal(const QObject *selectionModel, const QObject *tableH
     connect(ui->actionSave, SIGNAL(triggered()), this, SLOT(onSave()));
     connect(ui->actionAbout, SIGNAL(triggered()), this, SLOT(onAbout()));
     connect(ui->actionOpen, SIGNAL(triggered()), this, SLOT(onOpen()));
+    connect(ui->actionExit, SIGNAL(triggered()), this, SLOT(close()));
+    connect(ui->btAdd, SIGNAL(clicked()), this, SLOT(onAdd()));
+    connect(ui->btDel, SIGNAL(clicked()), this, SLOT(onDel()));
 }
 
-void MainWindow::initStudentData() {
-
+void MainWindow::openDataBase(const QString &path) {
+    db.setDatabaseName(path);
+    if (!db.open()) {
+        QMessageBox::critical(this, tr("错误"), tr("数据库打开失败!!"));
+        qDebug() << "打开数据库失败!" << endl;
+        return;
+    }
+    qDebug() << "打开数据库: " + path << endl;
+    model = new QSqlTableModel(this, db);
+    model->setTable("students");
+    if (!model->select()) {
+        QMessageBox::critical(this, tr("错误"), tr("查询数据失败!!"));
+        qDebug() << "查询数据失败!" << endl;
+    }
 }
 
 void MainWindow::onTableClicked(const QItemSelection &selected, const QItemSelection &deselected) {
@@ -72,31 +102,40 @@ void MainWindow::onHeaderClicked(int index) {
 void MainWindow::onOpen() {
     auto *fileDialog = new QFileDialog(this);
     QStringList filter;
-    filter.append("保存的文件(*.json)");
+    filter.append("数据库文件(*.db,*.sqlite)");
     filter.append("所有文件(*.*)");
     fileDialog->setWindowTitle(tr("读取文件"));
     fileDialog->setNameFilters(filter);
     if (fileDialog->exec() == QDialog::Accepted) {
-        QString path = fileDialog->selectedFiles().first();
-        if (FileUtils::verifyFile(path)) {
-            // 重新打开时释放掉之前的 students
-            delete[] students;
-            students = FileUtils::readStudents(studentNum, path);
-            initStudentData();
-            QMessageBox::information(this, tr("提示"), tr("打开文件: ") + path);
-        } else {
-            QMessageBox::critical(this, tr("错误"), tr("文件不是有效的格式!!"));
-        }
+        openDataBase(fileDialog->selectedFiles().first());
     } else {
         QMessageBox::warning(this, tr("警告"), tr("取消打开文件"));
     }
 }
 
 void MainWindow::onSave() {
-    FileUtils::saveStudents(students, studentNum);
-    QMessageBox::information(this, QString("提示"), "学生信息已经保存!");
+    if (model->submitAll()) {
+        QMessageBox::information(this, QString("提示"), "学生信息已经保存!");
+    } else {
+        QMessageBox::critical(this, QString("错误"), "学生信息保存失败!");
+    }
 }
 
 void MainWindow::onAbout() {
     QMessageBox::information(this, QString("关于"), QString("C++ 课程设计专用捏"));
+}
+
+void MainWindow::onAdd() {
+    QSqlRecord record;
+    for (int i = 0; i < 6; ++i) {
+        record.setNull(i);
+    }
+    model->insertRecord(0, record);
+    qDebug() << "添加学生信息" << endl;
+}
+
+void MainWindow::onDel() {
+    int row = ui->tbStudent->currentIndex().row();
+    bool res = model->removeRow(row);
+    qDebug() << "删除一行: " << row << ", " << res << endl;
 }

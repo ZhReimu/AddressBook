@@ -27,13 +27,7 @@ public:
 
 private:
 
-    Student *students = nullptr;
-
-    unsigned int studentNum = 0;
-
-    QSqlDatabase *db = new QSqlDatabase(QSqlDatabase::addDatabase("QSQLITE", "stuDB"));
-
-    QString dbFile = "students.db";
+    QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
 
     Ui::MainWindow *ui;
 
@@ -45,7 +39,7 @@ private:
 
     void initComponents();
 
-    void initStudentData();
+    void openDataBase(const QString &path = "students.db");
 
 
 public Q_SLOTS:
@@ -61,6 +55,10 @@ public Q_SLOTS:
     void initSignal(const QObject *selectionModel, const QObject *tableHeader);
 
     void onOpen();
+
+    void onAdd();
+
+    void onDel();
 };
 
 
