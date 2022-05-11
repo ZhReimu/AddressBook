@@ -175,7 +175,7 @@ void MainWindow::onFind() {
                 QMessageBox::critical(this, QString("错误"), QString("请输入搜索内容!"));
                 return;
             }
-            auto filter = map.value(key) + "=" + value;
+            auto filter = map.value(key) + " = '" + value + "'";
             model->setFilter(filter);
             qDebug() << filter << endl;
         }
