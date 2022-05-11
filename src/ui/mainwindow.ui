@@ -79,6 +79,8 @@
                 <addaction name="actionDel"/>
                 <addaction name="separator"/>
                 <addaction name="actionRevert"/>
+                <addaction name="separator"/>
+                <addaction name="actionFind"/>
             </widget>
             <addaction name="menuFile"/>
             <addaction name="menuEdit"/>
@@ -122,6 +124,14 @@
         <action name="actionRevert">
             <property name="text">
                 <string>Revert</string>
+            </property>
+        </action>
+        <action name="actionFind">
+            <property name="text">
+                <string>Find</string>
+            </property>
+            <property name="shortcut">
+                <string>Ctrl+F</string>
             </property>
         </action>
     </widget>

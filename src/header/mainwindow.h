@@ -16,6 +16,7 @@
 #include "QStandardItemModel"
 #include "QSqlDatabase"
 #include "QSqlTableModel"
+#include "QInputDialog"
 
 #include "Student.h"
 #include "ReadOnlyDelegate.h"
@@ -43,6 +44,8 @@ private:
     Qt::SortOrder sortOrder = Qt::AscendingOrder;
 
     QSqlTableModel *model{};
+    
+    QMap<QString, QString> map;
 
     void initComponents();
 
@@ -66,6 +69,8 @@ public Q_SLOTS:
     void onDel();
 
     void onRevert();
+
+    void onFind();
 };
 
 

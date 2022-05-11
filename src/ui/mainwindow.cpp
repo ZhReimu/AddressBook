@@ -10,6 +10,14 @@
 // NOLINT
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
+
+    map.insert("编号", "sid");
+    map.insert("姓名", "name");
+    map.insert("地址", "address");
+    map.insert("电话", "phone");
+    map.insert("邮编", "postCode");
+    map.insert("邮件", "E-mail");
+
     initComponents();
     initSignal();
 }
@@ -54,6 +62,7 @@ void MainWindow::initSignal() {
     connect(ui->actionAbout, SIGNAL(triggered()), this, SLOT(onAbout()));
     connect(ui->actionOpen, SIGNAL(triggered()), this, SLOT(onOpen()));
     connect(ui->actionExit, SIGNAL(triggered()), this, SLOT(close()));
+    connect(ui->actionFind, SIGNAL(triggered()), this, SLOT(onFind()));
     connect(ui->btAdd, SIGNAL(clicked()), this, SLOT(onAdd()));
     connect(ui->btDel, SIGNAL(clicked()), this, SLOT(onDel()));
     connect(ui->btRevert, SIGNAL(clicked()), this, SLOT(onRevert()));
@@ -114,11 +123,7 @@ void MainWindow::onAbout() {
 }
 
 void MainWindow::onAdd() {
-    QSqlRecord record;
-    for (int i = 0; i < 6; ++i) {
-        record.setNull(i);
-    }
-    model->insertRecord(0, record);
+    model->insertRow(0);
     qDebug() << "添加学生信息" << endl;
 }
 
@@ -145,4 +150,25 @@ void MainWindow::onDel() {
 void MainWindow::onRevert() {
     model->revertAll();
     QMessageBox::information(this, QString("提示"), QString("放弃更改"));
+}
+
+void MainWindow::onFind() {
+    QString dlgTitle = "搜索字段";
+    QString txtLabel = "请选择按哪个字段搜索";
+    bool ok = false;
+    auto key = QInputDialog::getItem(
+            this, dlgTitle, txtLabel, map.keys(), 0, false, &ok,
+            Qt::WindowCloseButtonHint | Qt::MSWindowsFixedSizeDialogHint
+    );
+    if (ok) {
+        auto value = QInputDialog::getText(this, "搜索", "请输入搜索内容",
+                                           QLineEdit::Normal, nullptr, &ok,
+                                           Qt::WindowCloseButtonHint | Qt::MSWindowsFixedSizeDialogHint
+        );
+        if (ok) {
+            auto filter = map.take(key) + "=" + value;
+            model->setFilter(filter);
+            qDebug() << filter << endl;
+        }
+    }
 }
