@@ -28,9 +28,9 @@ cJSON *FileUtils::student2JSON(const Student &student) {
  * @param num 数组长度
  * @param saveFile 保存的文件名
  */
-void FileUtils::saveStudents(Student students[], unsigned int num, const char *saveFile) {
+void FileUtils::saveStudents(Student students[], unsigned int num, const QString &saveFile) {
     // 打开并清空文件
-    ofstream file(saveFile, ios::trunc);
+    ofstream file(saveFile.toStdString(), ios::trunc);
     // 创建 JSON 对象
     cJSON *json = cJSON_CreateObject();
     // 存入一个 Array 对象, key 为 students
@@ -55,9 +55,9 @@ void FileUtils::saveStudents(Student students[], unsigned int num, const char *s
  * @param saveFile 保存的文件名
  * @return 反序列化后的 Student 数组
  */
-Student *FileUtils::readStudents(int &size, const char *saveFile) {
+Student *FileUtils::readStudents(unsigned int &size, const QString &saveFile) {
     // 打开文件
-    ifstream file(saveFile, ios::in);
+    ifstream file(saveFile.toStdString(), ios::in);
     // 使用 stringStream 一次性将所有内容读入内存
     stringstream buffer;
     buffer << file.rdbuf();
@@ -75,4 +75,16 @@ Student *FileUtils::readStudents(int &size, const char *saveFile) {
         students[i] << cJSON_GetArrayItem(array, i);
     }
     return students;
+}
+
+
+bool FileUtils::verifyFile(const QString &path) {
+    // 打开文件
+    ifstream file(path.toStdString(), ios::in);
+    // 读取文件前 20 字节
+    char temp[20];
+    file.read(temp, 20);
+    qDebug() << temp;
+    file.close();
+    return QString(temp).contains("students");
 }

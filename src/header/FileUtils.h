@@ -5,7 +5,8 @@
 #ifndef CLIONPROJECTS_FILEUTILS_H
 #define CLIONPROJECTS_FILEUTILS_H
 
-#include <sstream>
+#include "sstream"
+#include "QDebug"
 #include "iostream"
 #include "fstream"
 #include "cJSON.h"
@@ -29,7 +30,7 @@ public:
      * @param num 数组长度
      * @param saveFile 保存的文件名
      */
-    static void saveStudents(Student students[], unsigned int num, const char *saveFile = "save.json");
+    static void saveStudents(Student students[], unsigned int num, const QString &saveFile = "save.json");
 
 
     /**
@@ -38,8 +39,9 @@ public:
      * @param saveFile 保存的文件名
      * @return 反序列化后的 Student 数组
      */
-    static Student *readStudents(int &size, const char *saveFile = "save.json");
+    static Student *readStudents(unsigned int &size, const QString &saveFile = "save.json");
 
+    static bool verifyFile(const QString &path);
 };
 
 
