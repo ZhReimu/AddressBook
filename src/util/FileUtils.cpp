@@ -28,7 +28,7 @@ cJSON *FileUtils::student2JSON(const Student &student) {
  * @param num 数组长度
  * @param saveFile 保存的文件名
  */
-void FileUtils::saveStudents(Student students[], int num, const char *saveFile) {
+void FileUtils::saveStudents(Student students[], unsigned int num, const char *saveFile) {
     // 打开并清空文件
     ofstream file(saveFile, ios::trunc);
     // 创建 JSON 对象

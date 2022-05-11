@@ -86,7 +86,8 @@ void MainWindow::onHeaderClicked(int index) {
 }
 
 void MainWindow::onSave() {
-    cout << "SaveFile" << endl;
+    FileUtils::saveStudents(students, studentNum);
+    QMessageBox::information(this, QString("提示"), "学生信息已经保存!");
 }
 
 void MainWindow::onAbout() {

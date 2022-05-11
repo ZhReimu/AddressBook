@@ -29,7 +29,7 @@ public:
      * @param num 数组长度
      * @param saveFile 保存的文件名
      */
-    static void saveStudents(Student students[], int num, const char *saveFile = "save.json");
+    static void saveStudents(Student students[], unsigned int num, const char *saveFile = "save.json");
 
 
     /**
