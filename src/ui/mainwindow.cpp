@@ -17,7 +17,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     map.insert("电话", "phone");
     map.insert("邮编", "postCode");
     map.insert("邮件", "E-mail");
-
+    openDataBase();
     initComponents();
     initSignal();
 }
@@ -28,7 +28,6 @@ MainWindow::~MainWindow() {
 }
 
 void MainWindow::initComponents() {
-    openDataBase();
 
     auto *selectionModel = new QItemSelectionModel(model);
     auto *tableHeader = new QHeaderView(Qt::Horizontal);
@@ -40,12 +39,14 @@ void MainWindow::initComponents() {
     tableHeader->setSectionResizeMode(QHeaderView::Stretch);
 
     model->setEditStrategy(QSqlTableModel::OnManualSubmit);
-    model->setHeaderData(model->fieldIndex("sid"), Qt::Horizontal, "编号");
-    model->setHeaderData(model->fieldIndex("name"), Qt::Horizontal, "姓名");
-    model->setHeaderData(model->fieldIndex("address"), Qt::Horizontal, "地址");
-    model->setHeaderData(model->fieldIndex("phone"), Qt::Horizontal, "电话");
-    model->setHeaderData(model->fieldIndex("postCode"), Qt::Horizontal, "邮编");
-    model->setHeaderData(model->fieldIndex("E-mail"), Qt::Horizontal, "邮件");
+
+    auto keys = map.keys();
+    auto size = map.size();
+    for (int i = 0; i < size; ++i) {
+        auto key = keys[i];
+        auto value = map.find(key).value();
+        model->setHeaderData(model->fieldIndex(value), Qt::Horizontal, key);
+    }
 
 
     ui->tbStudent->setItemDelegateForColumn(0, readOnlyDelegate);
@@ -66,6 +67,7 @@ void MainWindow::initSignal() {
     connect(ui->btAdd, SIGNAL(clicked()), this, SLOT(onAdd()));
     connect(ui->btDel, SIGNAL(clicked()), this, SLOT(onDel()));
     connect(ui->btRevert, SIGNAL(clicked()), this, SLOT(onRevert()));
+    connect(ui->btRevertSearch, SIGNAL(clicked()), this, SLOT(onRevertSearch()));
 }
 
 void MainWindow::openDataBase(const QString &path) {
@@ -166,9 +168,14 @@ void MainWindow::onFind() {
                                            Qt::WindowCloseButtonHint | Qt::MSWindowsFixedSizeDialogHint
         );
         if (ok) {
-            auto filter = map.take(key) + "=" + value;
+            auto filter = map.value(key) + "=" + value;
             model->setFilter(filter);
             qDebug() << filter << endl;
         }
     }
+}
+
+void MainWindow::onRevertSearch() {
+    model->setFilter(nullptr);
+    model->select();
 }

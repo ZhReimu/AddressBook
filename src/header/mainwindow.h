@@ -43,7 +43,7 @@ private:
 
     Qt::SortOrder sortOrder = Qt::AscendingOrder;
 
-    QSqlTableModel *model{};
+    QSqlTableModel *model;
     
     QMap<QString, QString> map;
 
@@ -71,6 +71,8 @@ public Q_SLOTS:
     void onRevert();
 
     void onFind();
+
+    void onRevertSearch();
 };
 
 
