@@ -5,13 +5,20 @@
 #ifndef CLIONPROJECTS_MAINWINDOW_H
 #define CLIONPROJECTS_MAINWINDOW_H
 
-#include <QMainWindow>
-#include <QItemSelection>
-#include <QStandardItemModel>
-#include <QSqlDatabase>
-#include <QSqlTableModel>
-#include "Student.h"
+#include "iostream"
+#include "QMessageBox"
+#include "QFileDialog"
+#include "QDataWidgetMapper"
+#include "QSqlRecord"
+#include "QDebug"
+#include "QMainWindow"
+#include "QItemSelection"
+#include "QStandardItemModel"
+#include "QSqlDatabase"
+#include "QSqlTableModel"
 
+#include "Student.h"
+#include "ReadOnlyDelegate.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }

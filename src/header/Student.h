@@ -6,8 +6,8 @@
 #define CLIONPROJECTS_STUDENT_H
 
 
-#include <QString>
-#include <ostream>
+#include "QString"
+#include "ostream"
 
 class Student {
 

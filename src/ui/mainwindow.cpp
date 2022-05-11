@@ -6,13 +6,6 @@
 
 #include "mainwindow.h"
 #include "ui_MainWindow.h"
-#include "ReadOnlyDelegate.h"
-#include <iostream>
-#include <QMessageBox>
-#include <QFileDialog>
-#include <QDataWidgetMapper>
-#include <QSqlRecord>
-#include "QDebug"
 
 // NOLINT
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
