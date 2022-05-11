@@ -29,16 +29,12 @@ MainWindow::~MainWindow() {
 
 void MainWindow::initComponents() {
 
-    auto *selectionModel = new QItemSelectionModel(model);
     auto *tableHeader = new QHeaderView(Qt::Horizontal);
     auto *readOnlyDelegate = new ReadOnlyDelegate(this);
-
 
     tableHeader->setModel(model);
     tableHeader->setSectionsClickable(true);
     tableHeader->setSectionResizeMode(QHeaderView::Stretch);
-
-    model->setEditStrategy(QSqlTableModel::OnManualSubmit);
 
     auto keys = map.keys();
     auto size = map.size();
@@ -47,12 +43,10 @@ void MainWindow::initComponents() {
         auto value = map.find(key).value();
         model->setHeaderData(model->fieldIndex(value), Qt::Horizontal, key);
     }
-
-
+    model->setEditStrategy(QSqlTableModel::OnManualSubmit);
     ui->tbStudent->setItemDelegateForColumn(0, readOnlyDelegate);
     ui->tbStudent->setModel(model);
     ui->tbStudent->verticalHeader()->hide();
-    ui->tbStudent->setSelectionModel(selectionModel);
     ui->tbStudent->setHorizontalHeader(tableHeader);
 
 }
@@ -81,7 +75,7 @@ void MainWindow::openDataBase(const QString &path) {
         return;
     }
     qDebug() << "打开数据库: " + path << endl;
-    model = new QSqlTableModel(this, db);
+    model = new XTableModel(this, db);
     model->setTable("students");
     if (!model->select()) {
         QMessageBox::critical(this, tr("错误"), tr("查询数据失败!!"));

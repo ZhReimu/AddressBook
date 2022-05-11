@@ -19,6 +19,7 @@
 #include "QInputDialog"
 
 #include "ReadOnlyDelegate.h"
+#include "XTableModel.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -42,7 +43,7 @@ private:
 
     Qt::SortOrder sortOrder = Qt::AscendingOrder;
 
-    QSqlTableModel *model;
+    XTableModel *model;
 
     QMap<QString, QString> map;
 

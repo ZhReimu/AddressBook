@@ -26,7 +26,9 @@ add_executable(${PROJECT_NAME}
         src/main.cpp src/ui/mainwindow.cpp
         src/header/mainwindow.h
         src/ui/mainwindow.ui
-        src/util/ReadOnlyDelegate.cpp src/header/ReadOnlyDelegate.h)
+        src/util/ReadOnlyDelegate.cpp src/header/ReadOnlyDelegate.h
+        src/util/XTableModel.cpp src/header/XTableModel.h
+        )
 
 target_link_libraries(${PROJECT_NAME}
         Qt5::Core
