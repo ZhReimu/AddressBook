@@ -123,6 +123,18 @@ void MainWindow::onAdd() {
 
 void MainWindow::onDel() {
     int row = ui->tbStudent->currentIndex().row();
+    auto value = model->record(row);
     bool res = model->removeRow(row);
+    if (value.isNull(0)) {
+        return;
+    }
     qDebug() << "删除一行: " << row << ", " << res << endl;
+    auto btRes = QMessageBox::question(this, "删除", "真的要删除吗?");
+    if (btRes == QMessageBox::Yes) {
+        model->submitAll();
+        QMessageBox::information(this, "提示", "删除成功!");
+    } else {
+        model->revertAll();
+        QMessageBox::warning(this, "提示", "取消删除!");
+    }
 }
