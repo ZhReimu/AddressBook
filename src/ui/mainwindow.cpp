@@ -15,6 +15,8 @@
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
+    db->setDatabaseName(dbFile);
+    model = new QSqlTableModel(this, *db);
     initComponents();
 }
 
@@ -30,12 +32,8 @@ void MainWindow::initComponents() {
     tableHeader->setModel(model);
     tableHeader->setSectionsClickable(true);
     tableHeader->setSectionResizeMode(QHeaderView::Stretch);
-    model->setColumnCount(5);
-    model->setHeaderData(0, Qt::Horizontal, "姓名");
-    model->setHeaderData(1, Qt::Horizontal, "地址");
-    model->setHeaderData(2, Qt::Horizontal, "电话");
-    model->setHeaderData(3, Qt::Horizontal, "邮编");
-    model->setHeaderData(4, Qt::Horizontal, "E-Mail");
+    model->setTable("students");
+    model->setEditStrategy(QSqlTableModel::OnManualSubmit);
     tb->setModel(model);
     tb->setSelectionModel(selectionModel);
     tb->setHorizontalHeader(tableHeader);
@@ -52,22 +50,7 @@ void MainWindow::initSignal(const QObject *selectionModel, const QObject *tableH
 }
 
 void MainWindow::initStudentData() {
-//    studentNum = 100;
-//    students = new Student[studentNum];
-//    for (int i = 0; i < studentNum; i++) {
-//        students[i].setName(QString(i % 26 + 65));
-//        students[i].setAddress(QString(i % 26 + 48));
-//        students[i].setPhone("123456");
-//        students[i].setPostCode("奥里给");
-//        students[i].setEMail("123@qq.com");
-//    }
-    for (int i = 0; i < studentNum; i++) {
-        model->setItem(i, 0, new QStandardItem(students[i].getName()));
-        model->setItem(i, 1, new QStandardItem(students[i].getAddress()));
-        model->setItem(i, 2, new QStandardItem(students[i].getPhone()));
-        model->setItem(i, 3, new QStandardItem(students[i].getPostCode()));
-        model->setItem(i, 4, new QStandardItem(students[i].getEMail()));
-    }
+
 }
 
 void MainWindow::onTableClicked(const QItemSelection &selected, const QItemSelection &deselected) {

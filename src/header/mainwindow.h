@@ -8,6 +8,8 @@
 #include <QMainWindow>
 #include <QItemSelection>
 #include <QStandardItemModel>
+#include <QSqlDatabase>
+#include <QSqlTableModel>
 #include "Student.h"
 
 
@@ -29,13 +31,17 @@ private:
 
     unsigned int studentNum = 0;
 
+    QSqlDatabase *db = new QSqlDatabase(QSqlDatabase::addDatabase("QSQLITE", "stuDB"));
+
+    QString dbFile = "students.db";
+
     Ui::MainWindow *ui;
 
     int sortColumn = -1;
 
     Qt::SortOrder sortOrder = Qt::AscendingOrder;
 
-    QStandardItemModel *model = new QStandardItemModel();
+    QSqlTableModel *model;
 
     void initComponents();
 
