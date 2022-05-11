@@ -95,13 +95,4 @@ std::ostream &operator<<(std::ostream &os, Student student) {
     return os;
 }
 
-Student &operator<<(Student &s, const cJSON *student) {
-    s.setName(cJSON_GetArrayItem(student, 0)->valuestring);
-    s.setAddress(cJSON_GetArrayItem(student, 1)->valuestring);
-    s.setPhone(cJSON_GetArrayItem(student, 2)->valuestring);
-    s.setPostCode(cJSON_GetArrayItem(student, 3)->valuestring);
-    s.setEMail(cJSON_GetArrayItem(student, 4)->valuestring);
-    return s;
-}
-
 Student::Student() = default;

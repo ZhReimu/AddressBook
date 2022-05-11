@@ -25,22 +25,15 @@ add_executable(QTStuComm
         src/header/mainwindow.h
         src/ui/mainwindow.ui
         src/model/Student.cpp src/header/Student.h
-        src/header/cJSON.h src/header/cJSON_Utils.h
-        src/util/FileUtils.cpp src/header/FileUtils.h
-        src/util/ReadOnlyDelegate.cpp src/util/ReadOnlyDelegate.h)
+        src/util/ReadOnlyDelegate.cpp src/header/ReadOnlyDelegate.h)
 
 target_link_libraries(QTStuComm
         Qt5::Core
         Qt5::Gui
         Qt5::Widgets
         Qt5::Sql
-        cjson
-        cjson_utils
         )
 
-target_link_directories(QTStuComm PUBLIC
-        lib
-        )
 
 if (WIN32)
     set(DEBUG_SUFFIX)

@@ -8,7 +8,6 @@
 
 #include <QString>
 #include <ostream>
-#include "cJSON.h"
 
 class Student {
 
@@ -63,8 +62,6 @@ public:
     std::string toString();
 
     friend std::ostream &operator<<(std::ostream &os, Student student);
-
-    friend Student &operator<<(Student &s, const cJSON *json);
 
 };
 
