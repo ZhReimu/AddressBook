@@ -64,6 +64,8 @@ public Q_SLOTS:
     void onAdd();
 
     void onDel();
+
+    void onRevert();
 };
 
 

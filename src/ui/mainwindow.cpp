@@ -56,6 +56,7 @@ void MainWindow::initSignal() {
     connect(ui->actionExit, SIGNAL(triggered()), this, SLOT(close()));
     connect(ui->btAdd, SIGNAL(clicked()), this, SLOT(onAdd()));
     connect(ui->btDel, SIGNAL(clicked()), this, SLOT(onDel()));
+    connect(ui->btRevert, SIGNAL(clicked()), this, SLOT(onRevert()));
 }
 
 void MainWindow::openDataBase(const QString &path) {
@@ -139,4 +140,9 @@ void MainWindow::onDel() {
     } else {
         QMessageBox::warning(this, "提示", "取消删除!");
     }
+}
+
+void MainWindow::onRevert() {
+    model->revertAll();
+    QMessageBox::information(this, QString("提示"), QString("放弃更改"));
 }
