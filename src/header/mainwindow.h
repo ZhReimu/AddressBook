@@ -35,7 +35,7 @@ private:
 
     Qt::SortOrder sortOrder = Qt::AscendingOrder;
 
-    QSqlTableModel *model;
+    QSqlTableModel *model{};
 
     void initComponents();
 
@@ -46,13 +46,11 @@ public Q_SLOTS:
 
     void onAbout();
 
-    void onTableClicked(const QItemSelection &selected, const QItemSelection &deselected);
-
     void onHeaderClicked(int index);
 
     void onSave();
 
-    void initSignal(const QObject *selectionModel, const QObject *tableHeader);
+    void initSignal();
 
     void onOpen();
 

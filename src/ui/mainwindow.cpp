@@ -14,10 +14,11 @@
 #include <QSqlRecord>
 #include "QDebug"
 
-
+// NOLINT
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
     initComponents();
+    initSignal();
 }
 
 MainWindow::~MainWindow() {
@@ -52,13 +53,10 @@ void MainWindow::initComponents() {
     ui->tbStudent->setSelectionModel(selectionModel);
     ui->tbStudent->setHorizontalHeader(tableHeader);
 
-    initSignal(selectionModel, tableHeader);
 }
 
-void MainWindow::initSignal(const QObject *selectionModel, const QObject *tableHeader) {
-    connect(selectionModel, SIGNAL(selectionChanged(QItemSelection, QItemSelection)),
-            this, SLOT(onTableClicked(QItemSelection, QItemSelection)));
-    connect(tableHeader, SIGNAL(sectionClicked(int)), this, SLOT(onHeaderClicked(int)));
+void MainWindow::initSignal() {
+    connect(ui->tbStudent->horizontalHeader(), SIGNAL(sectionClicked(int)), this, SLOT(onHeaderClicked(int)));
     connect(ui->actionSave, SIGNAL(triggered()), this, SLOT(onSave()));
     connect(ui->actionAbout, SIGNAL(triggered()), this, SLOT(onAbout()));
     connect(ui->actionOpen, SIGNAL(triggered()), this, SLOT(onOpen()));
@@ -83,10 +81,6 @@ void MainWindow::openDataBase(const QString &path) {
     }
 }
 
-void MainWindow::onTableClicked(const QItemSelection &selected, const QItemSelection &deselected) {
-    using namespace std;
-//    cout << "selected " << selected.count() << " " << deselected.count() << endl;
-}
 
 void MainWindow::onHeaderClicked(int index) {
     // 如果本次排序列与上次不相同, 那就更新以下 sortColumn
