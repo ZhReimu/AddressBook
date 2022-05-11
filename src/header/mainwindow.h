@@ -18,7 +18,6 @@
 #include "QSqlTableModel"
 #include "QInputDialog"
 
-#include "Student.h"
 #include "ReadOnlyDelegate.h"
 
 QT_BEGIN_NAMESPACE
@@ -44,7 +43,7 @@ private:
     Qt::SortOrder sortOrder = Qt::AscendingOrder;
 
     QSqlTableModel *model;
-    
+
     QMap<QString, QString> map;
 
     void initComponents();

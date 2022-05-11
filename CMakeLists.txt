@@ -26,7 +26,6 @@ add_executable(QTStuComm
         src/main.cpp src/ui/mainwindow.cpp
         src/header/mainwindow.h
         src/ui/mainwindow.ui
-        src/model/Student.cpp src/header/Student.h
         src/util/ReadOnlyDelegate.cpp src/header/ReadOnlyDelegate.h)
 
 target_link_libraries(QTStuComm
