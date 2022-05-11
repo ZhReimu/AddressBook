@@ -21,14 +21,14 @@ find_package(Qt5 COMPONENTS
         )
 
 # 加上 WIN32 表示去掉 CONSOLE
-add_executable(QTStuComm
-        WIN32
+add_executable(${PROJECT_NAME}
+        WIN32 icon.rc
         src/main.cpp src/ui/mainwindow.cpp
         src/header/mainwindow.h
         src/ui/mainwindow.ui
         src/util/ReadOnlyDelegate.cpp src/header/ReadOnlyDelegate.h)
 
-target_link_libraries(QTStuComm
+target_link_libraries(${PROJECT_NAME}
         Qt5::Core
         Qt5::Gui
         Qt5::Widgets
