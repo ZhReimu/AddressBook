@@ -10,8 +10,6 @@ int showWindow(int argc, char *argv[]) {
 }
 
 int main(int argc, char *argv[]) {
-    int a = 0;
-    cout << FileUtils::readStudents(a)[0] << endl;
     return showWindow(argc, argv);
 }
 

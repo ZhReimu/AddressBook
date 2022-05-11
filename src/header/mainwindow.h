@@ -25,7 +25,7 @@ public:
 
 private:
 
-    Student *students{};
+    Student *students = nullptr;
 
     unsigned int studentNum = 0;
 
@@ -53,6 +53,8 @@ public Q_SLOTS:
     void onSave();
 
     void initSignal(const QObject *selectionModel, const QObject *tableHeader);
+
+    void onOpen();
 };
 
 
