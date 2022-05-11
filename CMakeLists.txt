@@ -6,9 +6,9 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
-set(CMAKE_PREFIX_PATH
-        "D:/Android/Qt/Qt5.12.10/5.12.10/mingw73_64"
-        )
+# 使用环境变量配置 CMAKE_PREFIX_PATH
+# D:/Android/Qt/Qt5.12.10/5.12.10/mingw73_64
+set(CMAKE_PREFIX_PATH $ENV{QT_INSTALL_PATH})
 
 include_directories("src/header")
 
@@ -20,7 +20,9 @@ find_package(Qt5 COMPONENTS
         REQUIRED
         )
 
+# 加上 WIN32 表示去掉 CONSOLE
 add_executable(QTStuComm
+        WIN32
         src/main.cpp src/ui/mainwindow.cpp
         src/header/mainwindow.h
         src/ui/mainwindow.ui
