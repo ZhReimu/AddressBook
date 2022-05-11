@@ -11,11 +11,6 @@
 #include <iostream>
 #include <QMessageBox>
 
-QStandardItemModel *MainWindow::model = new QStandardItemModel(); // NOLINT
-
-int MainWindow::sortColumn = -1;
-
-Qt::SortOrder MainWindow::sortOrder = Qt::AscendingOrder;
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
@@ -51,11 +46,15 @@ void MainWindow::initComponents() {
     tb->setModel(model);
     tb->setSelectionModel(selectionModel);
     tb->setHorizontalHeader(tableHeader);
+    initSignal(selectionModel, tableHeader);
+}
 
-    connect(selectionModel, &QItemSelectionModel::selectionChanged, MainWindow::onTableClicked);
-    connect(tableHeader, &QHeaderView::sectionClicked, MainWindow::onHeaderClicked);
-    connect(ui->actionSave, &QAction::triggered, MainWindow::onSave);
-    connect(ui->actionAbout, SIGNAL(triggered(bool)), this, SLOT(onAbout()));
+void MainWindow::initSignal(const QObject *selectionModel, const QObject *tableHeader) {
+    connect(selectionModel, SIGNAL(selectionChanged(QItemSelection, QItemSelection)),
+            this, SLOT(onTableClicked(QItemSelection, QItemSelection)));
+    connect(tableHeader, SIGNAL(sectionClicked(int)), this, SLOT(onHeaderClicked(int)));
+    connect(ui->actionSave, SIGNAL(triggered()), this, SLOT(onSave()));
+    connect(ui->actionAbout, SIGNAL(triggered()), this, SLOT(onAbout()));
 }
 
 void MainWindow::initStudentData() {

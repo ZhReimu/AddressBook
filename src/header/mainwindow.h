@@ -31,27 +31,28 @@ private:
 
     Ui::MainWindow *ui;
 
-    static int sortColumn;
+    int sortColumn = -1;
 
-    static Qt::SortOrder sortOrder;
+    Qt::SortOrder sortOrder = Qt::AscendingOrder;
 
-    static QStandardItemModel *model;
+    QStandardItemModel *model = new QStandardItemModel();
 
     void initComponents();
 
     void initStudentData();
-
-    static void onTableClicked(const QItemSelection &selected, const QItemSelection &deselected);
-
-    static void onHeaderClicked(int index);
-
-    static void onSave();
 
 
 public Q_SLOTS:
 
     void onAbout();
 
+    void onTableClicked(const QItemSelection &selected, const QItemSelection &deselected);
+
+    void onHeaderClicked(int index);
+
+    void onSave();
+
+    void initSignal(const QObject *selectionModel, const QObject *tableHeader);
 };
 
 
