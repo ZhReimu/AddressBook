@@ -123,18 +123,20 @@ void MainWindow::onAdd() {
 
 void MainWindow::onDel() {
     int row = ui->tbStudent->currentIndex().row();
+    if (row == -1) {
+        QMessageBox::critical(this, "错误", "请选择需要删除的记录所在单元格!");
+    }
     auto value = model->record(row);
     bool res = model->removeRow(row);
+    qDebug() << "删除一行: " << row << ", " << res << endl;
     if (value.isNull(0)) {
         return;
     }
-    qDebug() << "删除一行: " << row << ", " << res << endl;
-    auto btRes = QMessageBox::question(this, "删除", "真的要删除吗?");
+    auto btRes = QMessageBox::question(this, "删除", tr("真的要删除 ") + value.value(1).toString() + tr(" 吗?"));
     if (btRes == QMessageBox::Yes) {
         model->submitAll();
         QMessageBox::information(this, "提示", "删除成功!");
     } else {
-        model->revertAll();
         QMessageBox::warning(this, "提示", "取消删除!");
     }
 }
