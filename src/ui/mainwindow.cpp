@@ -68,6 +68,9 @@ void MainWindow::initSignal() {
     connect(ui->btDel, SIGNAL(clicked()), this, SLOT(onDel()));
     connect(ui->btRevert, SIGNAL(clicked()), this, SLOT(onRevert()));
     connect(ui->btRevertSearch, SIGNAL(clicked()), this, SLOT(onRevertSearch()));
+    connect(ui->actionAdd, SIGNAL(triggered()), this, SLOT(onAdd()));
+    connect(ui->actionDel, SIGNAL(triggered()), this, SLOT(onDel()));
+    connect(ui->actionRevert, SIGNAL(triggered()), this, SLOT(onRevertSearch()));
 }
 
 void MainWindow::openDataBase(const QString &path) {

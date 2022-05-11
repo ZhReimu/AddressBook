@@ -122,15 +122,24 @@
             <property name="text">
                 <string>Add</string>
             </property>
+            <property name="shortcut">
+                <string>Ins</string>
+            </property>
         </action>
         <action name="actionDel">
             <property name="text">
+                <string>Del</string>
+            </property>
+            <property name="shortcut">
                 <string>Del</string>
             </property>
         </action>
         <action name="actionRevert">
             <property name="text">
                 <string>Revert</string>
+            </property>
+            <property name="shortcut">
+                <string>Ctrl+R</string>
             </property>
         </action>
         <action name="actionFind">
