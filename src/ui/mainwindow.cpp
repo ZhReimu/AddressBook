@@ -55,6 +55,10 @@ void MainWindow::initSignal() {
 }
 
 void MainWindow::openDataBase(const QString &path) {
+    if (!QFile(path).exists()) {
+        QMessageBox::critical(this, tr("错误"), tr("数据库不存在!!"));
+        exit(-1);
+    }
     db.setDatabaseName(path);
     if (!db.open()) {
         QMessageBox::critical(this, tr("错误"), tr("数据库打开失败!!"));
@@ -104,7 +108,7 @@ void MainWindow::onSave() {
 }
 
 void MainWindow::onAbout() {
-    QMessageBox::information(this, QString("关于"), QString("C++ 课程设计专用捏"));
+    QMessageBox::information(this, QString("关于  Made By Mr.X"), QString("C++ 课程设计专用捏, Powered By Qt5.12.10"));
 }
 
 void MainWindow::onAdd() {
