@@ -22,12 +22,13 @@ find_package(Qt5 COMPONENTS
 
 # 加上 WIN32 表示去掉 CONSOLE
 add_executable(${PROJECT_NAME}
-        WIN32 icon.rc
+        icon.rc
         src/main.cpp src/ui/mainwindow.cpp
         src/header/mainwindow.h
         src/ui/mainwindow.ui
         src/util/ReadOnlyDelegate.cpp src/header/ReadOnlyDelegate.h
         src/util/XTableModel.cpp src/header/XTableModel.h
+        icons.qrc
         )
 
 target_link_libraries(${PROJECT_NAME}

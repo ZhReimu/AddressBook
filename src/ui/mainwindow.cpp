@@ -108,7 +108,11 @@ void MainWindow::onSave() {
 }
 
 void MainWindow::onAbout() {
-    QMessageBox::information(this, QString("关于  Made By Mr.X"), QString("C++ 课程设计专用捏, Powered By Qt5.12.10"));
+    QMessageBox msg(this);
+    msg.setWindowTitle(tr("关于  Made By Mr.X"));
+    msg.setText(tr("C++ 课程设计专用捏, Powered By Qt5.12.10"));
+    msg.setIconPixmap(QPixmap(":/icon/1.png"));
+    msg.exec();
 }
 
 void MainWindow::onAdd() {
