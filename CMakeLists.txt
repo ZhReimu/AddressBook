@@ -51,6 +51,19 @@ if (WIN32)
             set(QT_INSTALL_PATH "${QT_INSTALL_PATH}/..")
         endif ()
     endif ()
+
+    if (EXISTS "${QT_INSTALL_PATH}/plugins/sqldrivers/qsqlite.dll")
+        # 创建 sqldrivers 文件夹
+        add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+                COMMAND ${CMAKE_COMMAND} -E make_directory
+                "$<TARGET_FILE_DIR:${PROJECT_NAME}>/plugins/sqldrivers/")
+        # 复制 qsqlite.dll 到编译文件夹
+        add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+                COMMAND ${CMAKE_COMMAND} -E copy
+                "${QT_INSTALL_PATH}/plugins/sqldrivers/qsqlite.dll"
+                "$<TARGET_FILE_DIR:${PROJECT_NAME}>/plugins/sqldrivers/")
+    endif ()
+
     if (EXISTS "${QT_INSTALL_PATH}/plugins/platforms/qwindows${DEBUG_SUFFIX}.dll")
         add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
                 COMMAND ${CMAKE_COMMAND} -E make_directory
