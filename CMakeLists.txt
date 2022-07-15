@@ -64,6 +64,14 @@ if (WIN32)
                 "$<TARGET_FILE_DIR:${PROJECT_NAME}>/plugins/sqldrivers/")
     endif ()
 
+    if (EXISTS "${CMAKE_CURRENT_LIST_DIR}/students.db")
+        # 复制 students.db 到编译文件夹
+        add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+                COMMAND ${CMAKE_COMMAND} -E copy
+                "${CMAKE_CURRENT_LIST_DIR}/students.db"
+                "$<TARGET_FILE_DIR:${PROJECT_NAME}>/students.db")
+    endif ()
+
     if (EXISTS "${QT_INSTALL_PATH}/plugins/platforms/qwindows${DEBUG_SUFFIX}.dll")
         add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
                 COMMAND ${CMAKE_COMMAND} -E make_directory
@@ -73,6 +81,7 @@ if (WIN32)
                 "${QT_INSTALL_PATH}/plugins/platforms/qwindows${DEBUG_SUFFIX}.dll"
                 "$<TARGET_FILE_DIR:${PROJECT_NAME}>/plugins/platforms/")
     endif ()
+
     foreach (QT_LIB Core Gui Widgets)
         add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
                 COMMAND ${CMAKE_COMMAND} -E copy
