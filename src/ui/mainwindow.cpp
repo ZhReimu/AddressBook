@@ -7,17 +7,9 @@
 #include "mainwindow.h"
 #include "ui_MainWindow.h"
 
-// NOLINT
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
-
-    model = new XTableModel(this, db, map);
-    map.insert("编号", "sid");
-    map.insert("姓名", "name");
-    map.insert("地址", "address");
-    map.insert("电话", "phone");
-    map.insert("邮编", "postCode");
-    map.insert("邮件", "E-mail");
+    model = new XTableModel(this, db);
     openDataBase();
     initComponents();
     initSignal();
@@ -29,7 +21,6 @@ MainWindow::~MainWindow() {
 }
 
 void MainWindow::initComponents() {
-
     auto *readOnlyDelegate = new ReadOnlyDelegate(this);
     ui->tbStudent->setItemDelegateForColumn(0, readOnlyDelegate);
     ui->tbStudent->setModel(model);
@@ -71,8 +62,14 @@ void MainWindow::openDataBase(const QString &path) {
         QMessageBox::critical(this, tr("错误"), tr("查询数据失败!!"));
         qDebug() << "查询数据失败!" << endl;
     }
+    map.insert("编号", "sid");
+    map.insert("姓名", "name");
+    map.insert("地址", "address");
+    map.insert("电话", "phone");
+    map.insert("邮编", "postCode");
+    map.insert("邮件", "E-mail");
+    model->updateHeader(map);
 }
-
 
 void MainWindow::onHeaderClicked(int index) {
     // 如果本次排序列与上次不相同, 那就更新以下 sortColumn
@@ -109,7 +106,7 @@ void MainWindow::onSave() {
 
 void MainWindow::onAbout() {
     QMessageBox msg(this);
-    msg.setWindowTitle(tr("关于  Made By Mr.X"));
+    msg.setWindowTitle(tr("关于 学生通讯录 Made By Mr.X"));
     msg.setText(tr("C++ 课程设计专用捏, Powered By Qt5.12.10"));
     msg.setIconPixmap(QPixmap(":/icon/1.png"));
     msg.exec();

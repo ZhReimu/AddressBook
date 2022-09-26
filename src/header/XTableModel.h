@@ -19,12 +19,11 @@ private:
 public:
     explicit XTableModel(QObject *parent = nullptr, const QSqlDatabase &db = QSqlDatabase());
 
-    XTableModel(QObject *parent, const QSqlDatabase &db, const QMap<QString, QString> &keyMap);
-
     QVariant data(const QModelIndex &idx, int role) const override;
 
     QHeaderView *getTableHeader() const;
 
+    void updateHeader(const QMap<QString, QString> &keyMap);
 };
 
 

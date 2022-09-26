@@ -3,29 +3,20 @@
 //
 
 #include "XTableModel.h"
+#include "QDebug"
 
-XTableModel::XTableModel(QObject *parent, const QSqlDatabase &db) : QSqlTableModel(parent, db) {
-    tableHeader = nullptr;
-}
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "UnusedParameter"
 
-XTableModel::XTableModel(QObject *parent, const QSqlDatabase &db, const QMap<QString, QString> &keyMap) : XTableModel(
-        parent, db) {
-
+XTableModel::XTableModel(QObject *parent, const QSqlDatabase &db) {
     tableHeader = new QHeaderView(Qt::Horizontal);
-
     tableHeader->setModel(this);
     tableHeader->setSectionsClickable(true);
     tableHeader->setSectionResizeMode(QHeaderView::Stretch);
-
-    auto keys = keyMap.keys();
-    auto size = keyMap.size();
-    for (int i = 0; i < size; ++i) {
-        auto key = keys[i];
-        auto value = keyMap.find(key).value();
-        this->setHeaderData(fieldIndex(value), Qt::Horizontal, key);
-    }
     this->setEditStrategy(QSqlTableModel::OnManualSubmit);
 }
+
+#pragma clang diagnostic pop
 
 QVariant XTableModel::data(const QModelIndex &idx, int role) const {
     QVariant value = QSqlTableModel::data(idx, role);
@@ -39,3 +30,14 @@ QVariant XTableModel::data(const QModelIndex &idx, int role) const {
 QHeaderView *XTableModel::getTableHeader() const {
     return tableHeader;
 }
+
+void XTableModel::updateHeader(const QMap<QString, QString> &keyMap) {
+    auto keys = keyMap.keys();
+    auto size = keyMap.size();
+    for (int i = 0; i < size; ++i) {
+        auto key = keys[i];
+        auto value = keyMap.find(key).value();
+        this->setHeaderData(fieldIndex(value), Qt::Horizontal, key);
+    }
+}
+
