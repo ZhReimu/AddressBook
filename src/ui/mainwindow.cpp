@@ -67,7 +67,7 @@ void MainWindow::openDataBase(const QString &path) {
     map.insert("地址", "address");
     map.insert("电话", "phone");
     map.insert("邮编", "postCode");
-    map.insert("邮件", "E-mail");
+    map.insert("邮件", "email");
     model->updateHeader(map);
 }
 
@@ -100,8 +100,10 @@ void MainWindow::onSave() {
     if (model->submitAll()) {
         QMessageBox::information(this, QString("提示"), "学生信息已经保存!");
     } else {
-        QMessageBox::critical(this, QString("错误"), "学生信息保存失败!");
+        QMessageBox::critical(this, QString("错误"), "学生信息保存失败, 请检查数据是否合法");
     }
+    // 刷新数据
+    model->select();
 }
 
 void MainWindow::onAbout() {

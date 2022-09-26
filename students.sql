@@ -1,10 +1,10 @@
 -- auto-generated definition
 create table students
 (
-    sid      integer not null primary key,
+    sid      INTEGER PRIMARY KEY AUTOINCREMENT,
     name     TEXT,
     address  TEXT,
-    phone    TEXT,
-    postCode TEXT,
-    "E-mail" TEXT
+    phone    INTEGER CHECK ( length(phone) = 11 ),
+    postCode INTEGER CHECK ( length(0 + postCode) = length(postCode) ),
+    email    TEXT CHECK ( instr(email, '@') != 0 )
 );
