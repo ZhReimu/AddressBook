@@ -22,7 +22,8 @@ find_package(Qt5 COMPONENTS
 
 # 加上 WIN32 表示去掉 CONSOLE
 add_executable(${PROJECT_NAME}
-        WIN32 icon.rc
+        WIN32
+        icon.rc
         src/main.cpp src/ui/mainwindow.cpp
         src/header/mainwindow.h
         src/ui/mainwindow.ui
